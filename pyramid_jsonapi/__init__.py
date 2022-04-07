@@ -86,6 +86,7 @@ class PyramidJSONAPI():
         'api_version': {'val': '', 'desc': 'API version for prefixing endpoints and metadata generation.'},
         'expose_foreign_keys': {'val': False, 'desc': 'Expose foreign key fields in JSON.'},
         'inform_of_get_authz_failures': {'val': True, 'desc': 'True = return information in meta about authz failures; False = pretend items don\'t exist'},
+        'links_style': {'val': 'url', 'desc': 'url = Use absolute urls for links (default); path = Use relative url paths for links'},
         'metadata_endpoints': {'val': True, 'desc': 'Should /metadata endpoint be enabled?'},
         'metadata_modules': {'val': 'JSONSchema OpenAPI', 'desc': 'Modules to load to provide metadata endpoints (defaults are modules provided in the metadata package).'},
         'openapi_file': {'val': '', 'desc': 'File containing OpenAPI data (YAML or JSON)'},

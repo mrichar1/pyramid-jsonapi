@@ -94,7 +94,6 @@ class CollectionViewBase:
     relationships = None
     relname = None
     view_classes = None
-    settings = None
     permission_filters = None
     permission_template = None
     methods = None
@@ -1193,9 +1192,11 @@ class CollectionViewBase:
         for filtr in sorted(qinfo['_filters']):
             _query[filtr] = qinfo['_filters'][filtr]['value']
 
+        route_method = getattr(req, f'route_{self.api.settings.links_style}')
+
         # First link.
         _query['page[offset]'] = 0
-        links['first'] = req.route_url(
+        links['first'] = route_method(
             route_name, _query=_query, **req.matchdict
         )
 
@@ -1203,7 +1204,7 @@ class CollectionViewBase:
         next_offset = qinfo['page[offset]'] + qinfo['page[limit]']
         if count is None or next_offset < count:
             _query['page[offset]'] = next_offset
-            links['next'] = req.route_url(
+            links['next'] = route_method(
                 route_name, _query=_query, **req.matchdict
             )
 
@@ -1213,7 +1214,7 @@ class CollectionViewBase:
             if prev_offset < 0:
                 prev_offset = 0
             _query['page[offset]'] = prev_offset
-            links['prev'] = req.route_url(
+            links['prev'] = route_method(
                 route_name, _query=_query, **req.matchdict
             )
 
@@ -1223,7 +1224,7 @@ class CollectionViewBase:
                 max((count - 1), 0) //
                 qinfo['page[limit]']
             ) * qinfo['page[limit]']
-            links['last'] = req.route_url(
+            links['last'] = route_method(
                 route_name, _query=_query, **req.matchdict
             )
         return links

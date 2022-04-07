@@ -115,7 +115,8 @@ def workflow(view, stages):
         raise HTTPConflict(exc.args[0])
     view.request.response.status_code = 201
     item_id = view.id_col(item)
-    view.request.response.headers['Location'] = view.request.route_url(
+    route_method = getattr(view.request, f'route_{view.api.settings.links_style}')
+    view.request.response.headers['Location'] = route_method(
         view.api.endpoint_data.make_route_name(view.collection_name, suffix='item'),
         **{'id': item_id}
     )

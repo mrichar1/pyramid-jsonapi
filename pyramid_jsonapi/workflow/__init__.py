@@ -964,7 +964,8 @@ class ResultObject:
             self.obj_id = None
         else:
             self.obj_id = self.view.id_col(self.object)
-        self.url = self.view.request.route_url(
+        route_method = getattr(self.view.request, f'route_{self.view.api.settings.links_style}')
+        self.url = route_method(
             self.view.api.endpoint_data.make_route_name(
                 self.view.collection_name, suffix='item'
             ),
